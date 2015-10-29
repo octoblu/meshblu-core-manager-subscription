@@ -1,10 +1,9 @@
 class SubscriptionManager
-  constructor: (dependencies={}) ->
-    {@subscriptions} = dependencies.database
+  constructor: ({@datastore}) ->
 
   list: (subscriberUuid, callback) =>
     query =
       subscriberUuid: subscriberUuid
-    @subscriptions.find query, callback
-    
+    @datastore.find query, callback
+
 module.exports = SubscriptionManager

@@ -2,17 +2,16 @@ SubscriptionManager = require '../src/subscription-manager'
 
 describe 'SubscriptionManager', ->
   beforeEach ->
-    @database =
-      subscriptions:
-        find: sinon.stub()
+    @datastore =
+      find: sinon.stub()
 
     @sut = new SubscriptionManager
-      database: @database
+      datastore: @datastore
 
   describe '->list', ->
     describe 'when called with a subscription uuid and has subscriptions', ->
       beforeEach (done) ->
-        @database.subscriptions.find.yields null, [
+        @datastore.find.yields null, [
           {subscriberUuid: 'punk rock', emitterUuid: 'rap', type: 'hip hop'}
           {subscriberUuid: 'punk rock', emitterUuid: 'rock', type: 'classical'}
         ]
@@ -26,7 +25,7 @@ describe 'SubscriptionManager', ->
 
     describe 'when called with a subscription uuid and has different subscriptions', ->
       beforeEach (done) ->
-        @database.subscriptions.find.yields null, [
+        @datastore.find.yields null, [
           {subscriberUuid: 'jazz', emitterUuid: 'alternative rock', type: 'dubstep'}
           {subscriberUuid: 'jazz', emitterUuid: 'alternative rock', type: 'dubstep'}
         ]
