@@ -1,9 +1,11 @@
 class SubscriptionManager
-  constructor: ({@datastore}) ->
+  constructor: ({@datastore,@uuidAliasResolver}) ->
 
   list: (subscriberUuid, callback) =>
-    query =
-      subscriberUuid: subscriberUuid
-    @datastore.find query, callback
+    @uuidAliasResolver.resolve subscriberUuid, (error, subscriberUuid) =>
+      return callback error if error?
+      
+      query = {subscriberUuid}
+      @datastore.find query, callback
 
 module.exports = SubscriptionManager

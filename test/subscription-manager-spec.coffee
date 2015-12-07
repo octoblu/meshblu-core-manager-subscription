@@ -2,11 +2,11 @@ SubscriptionManager = require '../src/subscription-manager'
 
 describe 'SubscriptionManager', ->
   beforeEach ->
+    @uuidAliasResolver = resolve: (uuid, callback) => callback(null, uuid)
     @datastore =
       find: sinon.stub()
 
-    @sut = new SubscriptionManager
-      datastore: @datastore
+    @sut = new SubscriptionManager {@datastore, @uuidAliasResolver}
 
   describe '->list', ->
     describe 'when called with a subscription uuid and has subscriptions', ->
