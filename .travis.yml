@@ -1,9 +1,18 @@
 language: node_js
 node_js:
-- '0.11'
-# addons:
-#   code_climate:
-#     repo_token: "<REPO TOKEN GOES HERE>"
+- '5'
+services:
+- mongodb
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+  code_climate:
+    repo_token: ea35d2de03a6da7812beb3cf51cf58bb346d0e09e6685e5afdb5f4964b6b6fb6
 before_script:
 - npm install -g codeclimate-test-reporter
 after_script:

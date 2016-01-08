@@ -1,6 +1,6 @@
 {
   "name": "meshblu-core-manager-subscriptions",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -21,8 +21,10 @@
     "coffee-coverage": "^0.6.3",
     "coffee-script": "^1.10.0",
     "istanbul": "^0.4.0",
+    "meshblu-core-datastore": "^2.3.1",
     "mocha": "^2.3.3",
     "mocha-istanbul": "^0.2.0",
+    "mongojs": "^2.2.2",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
   }
