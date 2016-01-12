@@ -1,6 +1,6 @@
 {
-  "name": "meshblu-core-manager-subscriptions",
-  "version": "3.0.0",
+  "name": "meshblu-core-manager-subscription",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/octoblu/meshblu-core-manager-subscriptions.git"
+    "url": "git+https://github.com/octoblu/meshblu-core-manager-subscription.git"
   },
   "author": "Octoblu Inc, <npm@octoblu.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/octoblu/meshblu-core-manager-subscriptions/issues"
+    "url": "https://github.com/octoblu/meshblu-core-manager-subscription/issues"
   },
-  "homepage": "https://github.com/octoblu/meshblu-core-manager-subscriptions#readme",
+  "homepage": "https://github.com/octoblu/meshblu-core-manager-subscription#readme",
   "devDependencies": {
     "chai": "^3.4.0",
     "coffee-coverage": "^0.6.3",
