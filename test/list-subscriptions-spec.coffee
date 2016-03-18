@@ -2,7 +2,7 @@ mongojs = require 'mongojs'
 Datastore = require 'meshblu-core-datastore'
 SubscriptionManager = require '../src/subscription-manager'
 
-describe 'SubscriptionManager', ->
+describe 'List Subscriptions', ->
   beforeEach (done) ->
     @datastore = new Datastore
       database: mongojs 'subscription-manager-test'
