@@ -1,5 +1,7 @@
 class SubscriptionManager
-  constructor: ({@datastore,@uuidAliasResolver}) ->
+  constructor: ({@datastore,@uuidAliasResolver}={}) ->
+    throw new Error('datastore is required') unless @datastore?
+    throw new Error('uuidAliasResolver is required') unless @uuidAliasResolver?
 
   create: ({subscriberUuid, emitterUuid, type}, callback) =>
     return callback @_createUserError 'Missing subscriberUuid', 422 unless subscriberUuid?
