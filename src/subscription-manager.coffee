@@ -48,7 +48,7 @@ class SubscriptionManager
     return callback @_createUserError 'Missing subscriberUuid', 422 unless subscriberUuid?
     return callback @_createUserError 'Missing emitterUuid', 422 unless emitterUuid?
     return callback @_createUserError 'Missing type', 422 unless type?
-    return callback @_createUserError 'Invalid type', 422 unless type in ['broadcast', 'config', 'received', 'sent']
+    return callback @_createUserError 'Invalid type', 422 unless type in SubscriptionManager.TYPES
 
     @uuidAliasResolver.resolve emitterUuid, (error, emitterUuid) =>
       return callback @_createUserError error.message if error?

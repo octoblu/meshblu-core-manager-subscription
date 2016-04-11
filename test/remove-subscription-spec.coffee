@@ -17,14 +17,14 @@ describe 'Remove Subscription', ->
   describe '->create', ->
     describe 'when called with a valid request', ->
       beforeEach (done) ->
-        subscription = {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast'}
+        subscription = {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast.sent'}
         @datastore.insert subscription, done
 
       beforeEach (done) ->
-        @sut.remove {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast'}, (error) => done error
+        @sut.remove {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast.sent'}, (error) => done error
 
       it 'should remove a subscription', (done) ->
-        @datastore.find {subscriberUuid: 'superman', emitterUuid: 'spiderman', type: 'broadcast'}, (error, subscriptions) =>
+        @datastore.find {subscriberUuid: 'superman', emitterUuid: 'spiderman', type: 'broadcast.sent'}, (error, subscriptions) =>
           return done error if error?
           expect(subscriptions).to.deep.equal []
           done()
