@@ -4,11 +4,12 @@ SubscriptionManager = require '../src/subscription-manager'
 
 describe 'Remove Subscription', ->
   beforeEach (done) ->
+    database = mongojs 'subscription-manager-test', ['subscriptions']
     @datastore = new Datastore
-      database: mongojs 'subscription-manager-test'
+      database: database
       collection: 'subscriptions'
 
-    @datastore.remove done
+    database.subscriptions.remove done
 
   beforeEach ->
     @uuidAliasResolver = resolve: (uuid, callback) => callback(null, uuid)
