@@ -10,6 +10,8 @@ class SubscriptionManager
     'configure.sent'
     'message.received'
     'message.sent'
+    'unregister.sent'
+    'unregister.received'
   ]
   constructor: ({@datastore,@uuidAliasResolver}={}) ->
     throw new Error('datastore is required') unless @datastore?
