@@ -42,6 +42,35 @@ describe 'List Subscriptions', ->
           {subscriberUuid: 'punk rock', emitterUuid: 'rock', type: 'classical'}
         ]
 
+    describe 'when called with a subscriberUuid and has deleted subscriptions', ->
+      beforeEach (done) ->
+        record =
+          subscriberUuid: 'punk rock'
+          emitterUuid: 'rap'
+          type: 'hip hop'
+          deleted: true
+
+        @datastore.insert record, done
+
+      beforeEach (done) ->
+        record =
+          subscriberUuid: 'punk rock'
+          emitterUuid: 'rock'
+          type: 'classical'
+          deleted: true
+          cool: true
+
+        @datastore.insert record, done
+
+      beforeEach (done) ->
+        @sut.subscriberList {subscriberUuid:'punk rock'}, (error, @subscriptions) => done error
+
+      it 'should have a subscriberList of subscriptions', ->
+        expect(@subscriptions).to.deep.equal [
+          {subscriberUuid: 'punk rock', emitterUuid: 'rap', type: 'hip hop'}
+          {subscriberUuid: 'punk rock', emitterUuid: 'rock', type: 'classical'}
+        ]
+
     describe 'when called with a subscriberUuid and has different subscriptions', ->
       beforeEach (done) ->
         record =
