@@ -20,7 +20,7 @@ describe 'Remove Subscription', ->
     @sut = new SubscriptionManager {@datastore, @uuidAliasResolver}
 
   describe '->create', ->
-    describe 'when called with a valid request', ->
+    describe 'when called with an emitterUuid', ->
       beforeEach (done) ->
         subscription = {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast.sent'}
         @datastore.insert subscription, done
@@ -36,7 +36,23 @@ describe 'Remove Subscription', ->
           expect(subscriptions[0]).to.have.property 'deleted', true
           done()
 
-    describe 'when called without a emitterUuid', ->
+    describe 'when called with a subscriberUuid', ->
+      beforeEach (done) ->
+        subscription = {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast.sent'}
+        @datastore.insert subscription, done
+
+      beforeEach (done) ->
+        @sut.markAllAsDeleted {subscriberUuid: 'superman'}, (error) => done error
+
+      it 'should mark the subscription as deleted', (done) ->
+        query = {subscriberUuid: 'superman', emitterUuid: 'spiderman', type: 'broadcast.sent'}
+        @datastore.find query, (error, subscriptions) =>
+          return done error if error?
+          expect(subscriptions).to.have.lengthOf 1
+          expect(subscriptions[0]).to.have.property 'deleted', true
+          done()
+
+    describe 'when called without a emitterUuid or a subscriberUuid', ->
       beforeEach (done) ->
         subscription = {subscriberUuid:'superman', emitterUuid: 'spiderman', type:'broadcast.sent'}
         @datastore.insert subscription, done

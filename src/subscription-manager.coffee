@@ -1,3 +1,5 @@
+_ = require 'lodash'
+
 class SubscriptionManager
   @TYPES: [
     'broadcast'
@@ -57,12 +59,15 @@ class SubscriptionManager
           return callback error if error?
           callback null, subscription?
 
-  markAllAsDeleted: ({emitterUuid}, callback) =>
-    return callback @_createUserError 'Missing emitterUuid', 422 unless emitterUuid?
+  markAllAsDeleted: ({emitterUuid, subscriberUuid}, callback) =>
+    return callback @_createUserError 'Needs at least one of emitterUuid, subscriberUuid', 422 unless emitterUuid? || subscriberUuid?
 
-    @uuidAliasResolver.resolve emitterUuid, (error, emitterUuid) =>
+    @_resolve emitterUuid, (error, emitterUuid) =>
       return callback error if error?
-      @datastore.update {emitterUuid}, {$set: {deleted: true}}, callback
+      @_resolve subscriberUuid, (error, subscriberUuid) =>
+        return callback error if error?
+        query = _.pickBy {emitterUuid, subscriberUuid}
+        @datastore.update query, {$set: {deleted: true}}, callback
 
   remove: ({subscriberUuid, emitterUuid, type}, callback) =>
     return callback @_createUserError 'Missing subscriberUuid', 422 unless subscriberUuid?
@@ -86,12 +91,16 @@ class SubscriptionManager
       return callback error if error?
       @_find {subscriberUuid, type}, callback
 
-  _find: (query, callback) =>
-    @datastore.find query, SubscriptionManager.PROJECTION, callback
-
   _createUserError: (message, code) =>
     error = new Error message
     error.code = code || 500
     return error
+
+  _find: (query, callback) =>
+    @datastore.find query, SubscriptionManager.PROJECTION, callback
+
+  _resolve: (alias, callback) =>
+    return callback() if _.isEmpty alias
+    @uuidAliasResolver.resolve alias, callback
 
 module.exports = SubscriptionManager
