@@ -33,14 +33,13 @@ class SubscriptionManager
     @uuidAliasResolver.resolve emitterUuid, (error, emitterUuid) =>
       return callback error if error?
 
-      @_find {emitterUuid}, callback
+      @_find {emitterUuid, deleted: {$ne: true}}, callback
 
   emitterListForType: ({emitterUuid, type}, callback) =>
     @uuidAliasResolver.resolve emitterUuid, (error, emitterUuid) =>
       return callback error if error?
 
-      query = {emitterUuid, type}
-      @_find {emitterUuid, type}, callback
+      @_find {emitterUuid, type, deleted: {$ne: true}}, callback
 
   exists: ({subscriberUuid, emitterUuid, type}, callback) =>
     return callback @_createUserError 'Missing subscriberUuid', 422 unless subscriberUuid?

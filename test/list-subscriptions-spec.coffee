@@ -1,3 +1,6 @@
+{beforeEach, describe, it} = global
+{expect} = require 'chai'
+
 mongojs = require 'mongojs'
 Datastore = require 'meshblu-core-datastore'
 SubscriptionManager = require '../src/subscription-manager'
@@ -176,6 +179,22 @@ describe 'List Subscriptions', ->
           {subscriberUuid: 'jazz', emitterUuid: 'alternative rock', type: 'dubstep'}
         ]
 
+    describe 'when a subscription is marked as deleted', ->
+      beforeEach (done) ->
+        record =
+          subscriberUuid: 'punk rock'
+          emitterUuid: 'rap'
+          type: 'classical'
+          deleted: true
+
+        @datastore.insert record, done
+
+      beforeEach (done) ->
+        @sut.emitterList {emitterUuid:'rap'}, (error, @subscriptions) => done error
+
+      it 'should not yield and subscriptions', ->
+        expect(@subscriptions).to.be.empty
+
   describe '->emitterListForType', ->
     describe 'when called with a emitterUuid and has subscriptions', ->
       beforeEach (done) ->
@@ -201,3 +220,19 @@ describe 'List Subscriptions', ->
         expect(@subscriptions).to.deep.equal [
           {subscriberUuid: 'punk rock', emitterUuid: 'rock', type: 'classical'}
         ]
+
+    describe 'when a subscription is marked as deleted', ->
+      beforeEach (done) ->
+        record =
+          subscriberUuid: 'punk rock'
+          emitterUuid: 'rock'
+          type: 'classical'
+          deleted: true
+
+        @datastore.insert record, done
+
+      beforeEach (done) ->
+        @sut.emitterListForType {emitterUuid: 'rock', type: 'classical'}, (error, @subscriptions) => done error
+
+      it 'should not yield the subscription', ->
+        expect(@subscriptions).to.be.empty
