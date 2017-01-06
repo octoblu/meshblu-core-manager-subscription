@@ -1,6 +1,6 @@
 {
   "name": "meshblu-core-manager-subscription",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "devDependencies": {
     "chai": "^3.4.0",
     "coffee-script": "^1.10.0",
-    "meshblu-core-datastore": "^3.2.0",
+    "meshblu-core-datastore": "^4.9.0",
     "mocha": "^2.3.3",
     "mocha-multi": "^0.9.1",
     "mocha-osx-reporter": "^0.1.2",

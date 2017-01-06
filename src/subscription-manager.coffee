@@ -62,6 +62,13 @@ class SubscriptionManager
           return callback error if error?
           callback null, data?
 
+  markAllAsDeleted: ({emitterUuid}, callback) =>
+    return callback @_createUserError 'Missing emitterUuid', 422 unless emitterUuid?
+    
+    @uuidAliasResolver.resolve emitterUuid, (error, emitterUuid) =>
+      return callback error if error?
+      @datastore.update {emitterUuid}, {$set: {deleted: true}}, callback
+
   remove: ({subscriberUuid, emitterUuid, type}, callback) =>
     return callback @_createUserError 'Missing subscriberUuid', 422 unless subscriberUuid?
     return callback @_createUserError 'Missing emitterUuid', 422 unless emitterUuid?
