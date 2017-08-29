@@ -81,6 +81,20 @@ class SubscriptionManager
         return callback @_createUserError error.message if error?
         @datastore.remove {subscriberUuid,emitterUuid,type}, callback
 
+  removeMany: ({subscriberUuid, emitterUuid, type}, callback) =>
+    return callback @_createUserError 'Missing subscriberUuid', 422 unless subscriberUuid?
+    if type?
+      return callback @_createUserError 'Invalid type', 422 unless type in SubscriptionManager.TYPES
+
+    @uuidAliasResolver.resolve emitterUuid, (error, emitterUuid) =>
+      return callback @_createUserError error.message if error?
+      @uuidAliasResolver.resolve subscriberUuid, (error, subscriberUuid) =>
+        return callback @_createUserError error.message if error?
+        query = { subscriberUuid }
+        query.emitterUuid = emitterUuid unless _.isEmpty emitterUuid
+        query.type = type unless _.isEmpty type
+        @datastore.remove query, callback
+
   subscriberList: ({subscriberUuid}, callback) =>
     @uuidAliasResolver.resolve subscriberUuid, (error, subscriberUuid) =>
       return callback error if error?
